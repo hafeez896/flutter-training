@@ -1,3 +1,6 @@
+import 'package:expenses_app/expenses_List.dart';
+import 'package:expenses_app/models/expense.dart';
+import 'package:expenses_app/new_expense.dart';
 import 'package:flutter/material.dart';
 
 class Expenses extends StatefulWidget {
@@ -7,6 +10,70 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
+  var expensesList = [
+    Expense(
+        title: 'Movie',
+        amount: 20.00,
+        date: DateTime.now(),
+        category: Category.other),
+    Expense(
+        title: 'Movie',
+        amount: 20.00,
+        date: DateTime.now(),
+        category: Category.food),
+    Expense(
+        title: 'Movie',
+        amount: 20.00,
+        date: DateTime.now(),
+        category: Category.travel),
+    Expense(
+        title: 'Movie',
+        amount: 20.00,
+        date: DateTime.now(),
+        category: Category.other),
+    Expense(
+        title: 'Movie',
+        amount: 20.00,
+        date: DateTime.now(),
+        category: Category.work),
+    Expense(
+        title: 'Movie',
+        amount: 20.00,
+        date: DateTime.now(),
+        category: Category.other),
+    Expense(
+        title: 'Movie',
+        amount: 20.00,
+        date: DateTime.now(),
+        category: Category.other),
+    Expense(
+        title: 'Movie',
+        amount: 20.00,
+        date: DateTime.now(),
+        category: Category.other),
+    Expense(
+        title: 'Movie',
+        amount: 20.00,
+        date: DateTime.now(),
+        category: Category.other),
+    Expense(
+        title: 'Movie',
+        amount: 20.00,
+        date: DateTime.now(),
+        category: Category.other),
+    Expense(
+        title: 'Movie',
+        amount: 20.00,
+        date: DateTime.now(),
+        category: Category.other),
+  ];
+
+  void openAddExpenseModal() {
+    setState(() {
+      expensesList = [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,9 +81,14 @@ class _ExpensesState extends State<Expenses> {
         title: const Text(
           'Expense Tracker',
         ),
+        actions: [
+          IconButton(
+              onPressed: openAddExpenseModal, icon: const Icon(Icons.add))
+        ],
       ),
-      body: const Column(children: [
-        Text("Expenses"),
+      body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        const Text("Expenses"),
+        ExpensesList(expensesList),
       ]),
     );
   }

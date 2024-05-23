@@ -4,7 +4,9 @@ import 'package:quizapp/data/questions.dart';
 import 'package:quizapp/models/quiz_questions.dart';
 
 class QuestionScreen extends StatefulWidget {
-  const QuestionScreen({Key? key}) : super(key: key);
+  const QuestionScreen(this.goToStartScreen, {Key? key}) : super(key: key);
+
+  final void Function() goToStartScreen;
 
   @override
   State<QuestionScreen> createState() => _QuestionScreenState();
@@ -14,7 +16,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
   var currentQuestionIndex = 0;
 
   void answerQuestion() {
-    if (currentQuestionIndex >= questions.length) {
+    if (currentQuestionIndex >= questions.length - 1) {
+      widget.goToStartScreen();
       return;
     }
     setState(() {
