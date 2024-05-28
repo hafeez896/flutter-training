@@ -17,60 +17,22 @@ class _ExpensesState extends State<Expenses> {
         date: DateTime.now(),
         category: Category.other),
     Expense(
-        title: 'Movie',
-        amount: 20.00,
+        title: 'Dinner',
+        amount: 200.00,
         date: DateTime.now(),
         category: Category.food),
-    Expense(
-        title: 'Movie',
-        amount: 20.00,
-        date: DateTime.now(),
-        category: Category.travel),
-    Expense(
-        title: 'Movie',
-        amount: 20.00,
-        date: DateTime.now(),
-        category: Category.other),
-    Expense(
-        title: 'Movie',
-        amount: 20.00,
-        date: DateTime.now(),
-        category: Category.work),
-    Expense(
-        title: 'Movie',
-        amount: 20.00,
-        date: DateTime.now(),
-        category: Category.other),
-    Expense(
-        title: 'Movie',
-        amount: 20.00,
-        date: DateTime.now(),
-        category: Category.other),
-    Expense(
-        title: 'Movie',
-        amount: 20.00,
-        date: DateTime.now(),
-        category: Category.other),
-    Expense(
-        title: 'Movie',
-        amount: 20.00,
-        date: DateTime.now(),
-        category: Category.other),
-    Expense(
-        title: 'Movie',
-        amount: 20.00,
-        date: DateTime.now(),
-        category: Category.other),
-    Expense(
-        title: 'Movie',
-        amount: 20.00,
-        date: DateTime.now(),
-        category: Category.other),
   ];
 
   void openAddExpenseModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => NewExpense(addExpense),
+    );
+  }
+
+  void addExpense(Expense expense) {
     setState(() {
-      expensesList = [];
+      expensesList.add(expense);
     });
   }
 
@@ -87,8 +49,9 @@ class _ExpensesState extends State<Expenses> {
         ],
       ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        const Text("Expenses"),
-        ExpensesList(expensesList),
+        ExpensesList(
+          expensesList,
+        ),
       ]),
     );
   }
