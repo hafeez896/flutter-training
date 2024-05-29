@@ -72,58 +72,68 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        TextField(
-          controller: titleController,
-          maxLength: 50,
-          decoration: const InputDecoration(label: Text("Title")),
-          keyboardType: TextInputType.text,
-        ),
-        TextField(
-          controller: amountController,
-          decoration: const InputDecoration(label: Text("Amount")),
-          keyboardType: TextInputType.number,
-        ),
-        Row(
-          children: [
-            Text(selectedDate == null
-                ? "No date selected"
-                : formatter.format(selectedDate!)),
-            IconButton(
-                onPressed: openDatePicker,
-                icon: const Icon(Icons.calendar_month))
-          ],
-        ),
-        DropdownButton(
-            value: selectedCategory,
-            items: Category.values
-                .map((category) => DropdownMenuItem(
-                      value: category,
-                      child: Text(category.name),
-                    ))
-                .toList(),
-            onChanged: (category) {
-              if (category == null) {
-                return;
-              }
-              setState(() {
-                selectedCategory = category;
-              });
-            }),
-        Row(
-          children: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("cancel"),
+    final keyBoardSpace = MediaQuery.of(context).viewInsets.bottom;
+
+    return SizedBox(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: 16, left: 16, right: 16, bottom: keyBoardSpace),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            TextField(
+              controller: titleController,
+              maxLength: 50,
+              decoration: const InputDecoration(label: Text("Title")),
+              keyboardType: TextInputType.text,
             ),
-            ElevatedButton(onPressed: saveExpense, child: const Text("Save")),
-          ],
+            TextField(
+              controller: amountController,
+              decoration: const InputDecoration(label: Text("Amount")),
+              keyboardType: TextInputType.number,
+            ),
+            Row(
+              children: [
+                Text(selectedDate == null
+                    ? "No date selected"
+                    : formatter.format(selectedDate!)),
+                IconButton(
+                    onPressed: openDatePicker,
+                    icon: const Icon(Icons.calendar_month))
+              ],
+            ),
+            DropdownButton(
+                value: selectedCategory,
+                items: Category.values
+                    .map((category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(category.name),
+                        ))
+                    .toList(),
+                onChanged: (category) {
+                  if (category == null) {
+                    return;
+                  }
+                  setState(() {
+                    selectedCategory = category;
+                  });
+                }),
+            Row(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("cancel"),
+                ),
+                ElevatedButton(
+                    onPressed: saveExpense, child: const Text("Save")),
+              ],
+            ),
+          ]),
         ),
-      ]),
+      ),
     );
   }
 }
