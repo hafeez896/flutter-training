@@ -12,9 +12,12 @@ var darkColorScheme = ColorScheme.fromSeed(
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.portraitUp, DeviceOrientation.landscapeLeft])
-      .then((value) {
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.portraitDown,
+  ]).then((value) {
     runApp(MaterialApp(
       darkTheme: ThemeData.dark().copyWith(colorScheme: darkColorScheme),
       theme: ThemeData().copyWith(
