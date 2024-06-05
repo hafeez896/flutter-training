@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
+import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/meals.dart';
+import 'package:meals_app/widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({Key? key}) : super(key: key);
@@ -9,24 +12,54 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  final List<Meal> favoriteMeals = [];
+
   int selectedTabIndex = 0;
   String pageTitle = "Categories";
 
   void onTabClicked(int index) {
     setState(() {
       selectedTabIndex = index;
-      pageTitle = "Favorites";
     });
+  }
+
+  void toggleFavoriteStatus(Meal meal) {
+    final isExisting = favoriteMeals.contains(meal);
+
+    if (isExisting) {
+      setState(() {
+        favoriteMeals.remove(meal);
+      });
+    } else {
+      setState(() {
+        favoriteMeals.add(meal);
+      });
+    }
+  }
+
+  void setScreen(String identifier) async {
+    Navigator.of(context).pop();
+    if (identifier == "filters") {
+      final result = await Navigator.of(context).push<Map<String, bool>>(
+        MaterialPageRoute(
+          builder: (ctx) => const FilterScreen(),
+        ),
+      );
+      print(result);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget screen = const CategoryScreen();
+    Widget screen = CategoryScreen(toggleFavoriteStatus);
+    pageTitle = "Categories";
 
     if (selectedTabIndex == 1) {
       screen = Meals(
-        meals: [],
+        meals: favoriteMeals,
+        toggleFavoriteStatus: toggleFavoriteStatus,
       );
+      pageTitle = "Favorites";
     }
 
     return Scaffold(
@@ -34,6 +67,7 @@ class _TabsScreenState extends State<TabsScreen> {
         title: Text(pageTitle),
       ),
       body: screen,
+      endDrawer: MainDrawer(setScreen),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedTabIndex,
         onTap: onTabClicked,
