@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/providers/favorites_provider.dart';
 import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/meals.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 
-class TabsScreen extends StatefulWidget {
+class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({Key? key}) : super(key: key);
   @override
-  State<TabsScreen> createState() => _TabsScreenState();
+  ConsumerState<TabsScreen> createState() => _TabsScreenState();
 }
 
-class _TabsScreenState extends State<TabsScreen> {
-  final List<Meal> favoriteMeals = [];
-
+class _TabsScreenState extends ConsumerState<TabsScreen> {
   int selectedTabIndex = 0;
   String pageTitle = "Categories";
 
@@ -23,41 +23,27 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
-  void toggleFavoriteStatus(Meal meal) {
-    final isExisting = favoriteMeals.contains(meal);
-
-    if (isExisting) {
-      setState(() {
-        favoriteMeals.remove(meal);
-      });
-    } else {
-      setState(() {
-        favoriteMeals.add(meal);
-      });
-    }
-  }
-
-  void setScreen(String identifier) async {
+  void setScreen(String identifier) {
     Navigator.of(context).pop();
     if (identifier == "filters") {
-      final result = await Navigator.of(context).push<Map<String, bool>>(
+      Navigator.of(context).push<Map<String, bool>>(
         MaterialPageRoute(
           builder: (ctx) => const FilterScreen(),
         ),
       );
-      print(result);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget screen = CategoryScreen(toggleFavoriteStatus);
+    Widget screen = const CategoryScreen();
     pageTitle = "Categories";
+
+    final favoriteMeals = ref.watch(favoriteMealsProvider);
 
     if (selectedTabIndex == 1) {
       screen = Meals(
         meals: favoriteMeals,
-        toggleFavoriteStatus: toggleFavoriteStatus,
       );
       pageTitle = "Favorites";
     }
