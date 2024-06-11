@@ -17,14 +17,17 @@ class MealItem extends StatelessWidget {
       child: InkWell(
         onTap: goToMealDetails,
         child: Stack(alignment: Alignment.bottomLeft, children: [
-          FadeInImage(
-            placeholder: MemoryImage(kTransparentImage),
-            image: NetworkImage(
-              meal.imageUrl,
+          Hero(
+            tag: meal.id,
+            child: FadeInImage(
+              placeholder: MemoryImage(kTransparentImage),
+              image: NetworkImage(
+                meal.imageUrl,
+              ),
+              width: double.infinity,
+              height: 300,
+              fit: BoxFit.cover,
             ),
-            width: double.infinity,
-            height: 300,
-            fit: BoxFit.cover,
           ),
           // Image.network(
           //   meal.imageUrl,
